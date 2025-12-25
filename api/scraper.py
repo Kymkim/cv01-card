@@ -40,9 +40,9 @@ def scrape_player_data():
             page = context.new_page()
             page.goto("https://maimaidx-eng.com")
 
-        if page.locator("input[type=password]").count() > 0:
-            print("Login with your account - Press Enter when done")
-            return playerData
+            if page.locator("input[type=password]").count() > 0:
+                print("Login with your account - Press Enter when done")
+                return playerData
         else:
             print("Already logged in via saved auth!")
             page.goto("https://maimaidx-eng.com/maimai-mobile/playerData/")
