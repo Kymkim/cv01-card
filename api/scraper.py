@@ -36,6 +36,7 @@ def scrape_player_data():
         if page.locator("input[type=password]").count() > 0:
             print("❌ Login required!")
             print("Run python scraper.py auth() first to authenthicate.")
+            auth()
             return playerData
         else:
             print("Already logged in via saved auth!")
@@ -56,7 +57,6 @@ def scrape_player_data():
         return playerData
 
 def auth():
-    with sync_playwright() as p:
         browser = p.chromium.launch(headless=False)
         context = browser.new_context()
         page = context.new_page()

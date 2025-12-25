@@ -19,7 +19,6 @@ void app_main() {
 
 void display_task(void *pvParameter) {
     
-    //LVGL initializationku miku ooeeoo");
     lv_init();
     lv_display_t* display = lv_display_create(240, 320);
     lv_display_set_rotation(display, LV_DISPLAY_ROTATION_90);
@@ -39,8 +38,7 @@ void display_task(void *pvParameter) {
     lv_obj_add_style(lv_scr_act(), &style, 0);
 
     lv_obj_t * label = lv_label_create(lv_screen_active());
-    lv_label_set_text(label, "i think im restarted miku ooeeoo");
-    
+    lv_label_set_text(label, "CV01-Card Thingy");
 
     while (1) {
         lv_timer_handler();

@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="format-detection" content="telephone=no">
+        <meta name="author" content="(C) SEGA">
+    
+
+<title>Login</title>
+
+
+<meta name="description" content="Login">
+<link rel="shortcut icon" href="https://lng-tgk-aime-gw.am-all.net/common_auth/images/favicon.ico">
+
+        <link rel="stylesheet" href="Login_files/sp.css" media="screen and (max-width:767px)">
+        <link rel="stylesheet" href="Login_files/browser.css" media="screen and (min-width:768px)">
+        <link rel="stylesheet" href="Login_files/common-login.css">
+    
+
+        <script src="Login_files/env.js"></script>
+        <script src="Login_files/jquery-3.2.1.min.js"></script>
+        <script src="Login_files/jquery.cookie.js"></script>
+    
+<script>
+	$(function () {
+		//-----------------
+		'use strict';
+		//-----------------
+
+		$('[data-target="button_sns"]').on('click', function () {
+			var regType = $(this).attr('data-type');
+			snsFunc(regType);
+		});
+
+		//SNSへ遷移
+		function snsFunc (regType) {
+			var url = API_URL + regType + '/signin';
+
+			// フォームの生成
+			var form = document.createElement("form");
+			form.setAttribute("action", url);
+			form.setAttribute("method", "post");
+			form.style.display = "none";
+			document.body.appendChild(form);
+
+			// パラメタの設定
+			var input = document.createElement('input');
+			input.setAttribute('type', 'hidden');
+			input.setAttribute('name', 'retention');
+			input.setAttribute('value', Number($('#retention-c').prop('checked')));
+			form.appendChild(input);
+
+			var input = document.createElement('input');
+			input.setAttribute('type', 'hidden');
+			input.setAttribute('name', 'sns');
+			input.setAttribute('value', $(this).attr('data-type'));
+			form.appendChild(input);
+
+			form.submit();
+		}
+
+		$(".retention-c").change(function() {
+			var val = Number($('#retention-c').prop('checked'));
+			$('input:hidden[name="retention"]').val(val);
+		});
+	});
+
+	//判定用フラグ
+	var isSubmit = false;
+
+	function double(){
+		if ($("#sidForm").valid()) {
+			var obj = document.getElementById("btnSubmit");
+			if(obj.disabled){
+				return false;
+			}else{
+				obj.disabled = true;
+				return true;
+			}
+		}
+	}
+</script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async="" src="Login_files/google-analytics_analytics.js"></script>
+<script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-47797852-3');
+    </script>
+</head>
+<body id="login">
+	<div id="top"></div>
+	<div class="l-container">
+		<div>
+	    <header class="u-ta--c">
+	        
+	        <div class="hd_logo mg_lr_auto">
+	            
+	            <h1 class="c-title" style="background-image:none">
+	                <a href="https://maimai.sega.com/"><img src="Login_files/maimaidxex.jpg" alt="maimai DX NET"></a>
+	            </h1>
+	        </div>
+	    </header>
+	    
+	    
+	</div>
+
+		<div class="l-container__inner">
+			<main class="l-contents">
+				<article>
+					<section class="l-contents__inner">
+						
+						<noscript>
+							<div class="c-caution">
+								<b></b>
+								<b>Please enable JavaScript.</b>
+							</div>
+						</noscript>
+						<div>
+							<p>Please agree to the following terms of service before log in.</p>
+							<ul class="c-list--disc u-ml--20 u-mtb--5">
+								<li>
+									<a target="_blank" href="https://maimaidx-eng.com/maimai-mobile/termsOfService/" class="term_link">maimai DX NET Terms of service</a>
+								</li>
+								<li>
+									<a href="https://my-aime.net/en/term" class="term_link" target="_blank">Terms of use for Aime service</a>
+								</li>
+							</ul>
+							<p class="c-text">By login to the service, you are agreeing to the Terms of service.</p>
+							<ul class="c-list--disc u-ml--20 u-mtb--5">
+								<li>
+									<a href="https://www.sega.co.jp/en/privacypolicy/index.html" target="_blank" class="term_link">Privacy Policy</a>
+								</li>
+							</ul>
+							<br>
+							
+							<div class="c-form__labelWrap" id="agree-default" style="display: none;"> <label class="c-form__label--bg"><input type="checkbox" id="agree" class="c-form__checkbox js-agree">Agree to the terms of use for Aime service</label> </div>
+
+							<div class="c-form__labelWrap" id="agree-maimaidxex"> <label class="c-form__label--bg agree"><input type="checkbox" id="agree" class="c-form__checkbox js-agree"><span class="agree__text"><span>Agree to maimai DX Net Terms of Service</span><span>and the Terms of Use for Aime service.</span></span></label></div>
+							
+						</div>
+						<p class="c-text u-mb--40 u-ta--c">
+							<label>
+								<input type="checkbox" id="retention-c" class="retention-c" value="1" checked="checked">
+								<span class="u-fw--bold u-fs--l">Check to enable auto login.</span>
+							</label>
+						</p>
+
+						<h2 class="c-title--sub">Login with SNS account</h2>
+						
+						<div>
+							<p class="c-text u-mb--40 u-ta--c">
+								<a href="javascript:void(0);" data-target="modal_openid" class="c-anchor--arrow js-modal">About SNS account and SEGA ID linkage</a>
+							</p>
+						</div>
+
+						<ul class="c-login__list">
+							<li class="c-login__item">
+								<button type="submit" name="login" value="twitter" data-target="button_sns" data-type="twitter" class="c-button--openid--twitter js-agreeSubmit" disabled="disabled">X / Twitter</button>
+							</li>
+							<li class="c-login__item">
+								<button type="submit" name="login" value="facebook" data-target="button_sns" data-type="facebook" class="c-button--openid--facebook js-agreeSubmit" disabled="disabled">Facebook</button>
+							</li>
+							<li class="c-login__item">
+								<button type="submit" name="login" value="line" data-target="button_sns" data-type="line" class="c-button--openid--line js-agreeSubmit" disabled="disabled">LINE</button>
+							</li>
+						</ul>
+						<p class="c-caution">* Login information will not be posted to the linked account without permission.</p>
+					</section>
+					<section class="l-contents__inner" id="segaid">
+						<h2 class="c-title--sub">Login with SEGA ID</h2>
+						<dl class="js-accordion">
+							<dt class="">
+								<ul class="c-login__list">
+									<li class="c-login__item">
+										<span class="c-button--openid--segaId">SEGA ID</span>
+									</li>
+								</ul>
+							</dt>
+							<dd class="u-mt--20 dp_n" style="display: none;">
+								<form action="/common_auth/login/sid/" method="post" class="c-form js-validate" novalidate="novalidate" id="sidForm" onsubmit="return double();">
+									<input type="hidden" name="retention" id="retention" value="1">
+									<ul class="c-form__list">
+										<li class="c-form__item">
+											<div class="c-form__title">SEGA ID</div>
+											<div class="c-form__inputWrap">
+												<input type="text" id="sid" name="sid" class="c-form__input isEmpty">
+											</div>
+										</li>
+										<li class="c-form__item">
+											<div class="c-form__title">password</div>
+											<div class="c-form__inputWrap">
+												<input type="password" id="password" name="password" autocomplete="new-password" class="c-form__input isEmpty">
+											</div>
+										</li>
+									</ul>
+									<p class="u-ta--c">
+										<a href="https://gw.sega.jp/gw/login/remind.html" target="_blank" class="c-anchor--arrow">Forgot your SEGA ID or password</a>
+									</p>
+									<div class="c-buttonWrap">
+										<ul class="c-login__list">
+											<li class="c-login__item">
+												<button type="submit" name="" class="c-button--login js-agreeSubmit" id="btnSubmit" value="Login" disabled="disabled">Login</button>
+											</li>
+										</ul>
+									</div>
+								</form>
+							</dd>
+						</dl>
+					</section>
+					<section class="l-contents__inner">
+						<div class="c-caution u-mb--0">
+							<ul class="c-asterisk">
+								<li class="c-asterisk__item">* Do not save ID / password in the browser on the shared PC.</li>
+								<li class="c-asterisk__item">* Be sure to log out after using the shared PC.</li>
+							</ul>
+						</div>
+
+						<div class="c-buttonWrap">
+							<a href="https://lng-tgk-aime-gw.am-all.net/common_auth/back" class="c-button--negative">Back</a>
+						</div>
+					</section>
+				</article>
+			</main>
+		</div>
+		<footer class="l-footer">
+        <nav class="c-footer__nav">
+            <ul class="c-footer__nav__list">
+                <li class="c-footer__nav__item--half">
+                    <a href="https://faq.sega.jp/hc/ja/categories/360001296773" target="_blank" class="c-footer__nav__anchor--external">FAQ</a>
+                </li><li class="c-footer__nav__item--half">
+                    <a href="https://sega.jp/contact/" target="_blank" class="c-footer__nav__anchor--external">Contact Us(Only Japanese)</a>
+                </li><li class="c-footer__nav__item--half">
+                    <a href="https://my-aime.net/en/term" class="c-footer__nav__anchor--external" target="_blank">Terms of service</a>
+                </li><li class="c-footer__nav__item--half">
+                    <a href="https://www.sega.co.jp/en/privacypolicy/index.html" target="_blank" class="c-footer__nav__anchor--external">Privacy Policy</a>
+                </li>
+            </ul>
+        </nav>
+        <div class="c-footer__bottom">
+            <ul class="c-footer__banner">
+                <li class="c-footer__banner__item"><a href="https://www.bandainamcoid.com/banapassport/" target="_blank"><img src="Login_files/banner_footer_banaPassport.png" alt="BANA PASSPORT バナパスポート"></a></li><!--
+                --><li class="c-footer__banner__item"><a href="https://p.eagate.573.jp/" target="_blank"><img src="Login_files/banner_footer_eamusement.png" alt="e-amusement"></a></li><!--
+                --><li class="c-footer__banner__item"><a href="https://www.sega.co.jp/" target="_blank"><img src="Login_files/banner_footer_sega.png" alt="SEGA"></a></li>
+            </ul>
+
+            <div class="c-footer__copyright">
+                <p class="c-text" style="display:inline;">"Aime service site" is operated by</p>
+                <a href="https://www.sega.co.jp/" target="_blank" class="c-footer__copyright__anchor" style="display:inline;">SEGA Co., Ltd.</a>
+                <p class="c-text" style="display:inline;">【</p>
+                <a href="https://sega.jp/contact/" target="_blank" class="c-footer__copyright__anchor">FAQ</a>】
+                <p>The images, texts, information, sounds, videos, etc. 
+used are protected by the copyright of Sega Holdings Co., Ltd. or its 
+affiliates. Duplication, reproduction, etc. are prohibited without the 
+permission of the copyright holder.</p>
+                <p class="c-text">Please enable JavaScript and CSS 
+(style sheet). You may not be able to view properly if you are using 
+other than latest browsers.</p>
+                
+            </div>
+        </div>
+    </footer>
+	</div>
+
+	<div class="c-modal" id="modal_openid">
+		<div class="c-modal__inner">
+			<div class="c-modal__flex">
+				<div class="c-modal__flex__half">
+					<h3 class="c-title--sub c-modal__title--sub">SEGA ID linkage</h3>
+					<p class="c-text">By linking "SNS account" and "SEGA ID", you can 
+view game data and Aime card information registered in "SEGA ID" with 
+all accounts.</p>
+				</div>
+				<div class="c-modal__flex__half">
+					<img src="Login_files/segaid_openid.png" alt="SEGA ID連携図">
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="Login_files/common.js"></script>
+
+	<script>
+		$(function() {
+			if(location.hash == "#segaid") {
+				$('#segaid dt').addClass('isOpen');
+				$('#segaid dd').css('display','block');
+			}
+		});
+	</script>
+	<div>
+		<script src="Login_files/agree.js"></script>
+	</div>
+	<script src="Login_files/jquery.validate.min.js"></script>
+	<script src="Login_files/jquery.validate.config.js"></script>
+	<script>
+		$('.js-balloon_close').on('click', function() {
+			$('.c-balloon').css('display','none');
+		});
+
+
+		$(function(){
+			var methods = {
+			};
+			$.each(methods, function(key) {
+				$.validator.addMethod(key, this);
+			});
+			var rules = {
+				sid: {required: true},
+				password: {required: true}
+			};
+			var messages = {
+			};
+			$('.js-validate').validate({
+				rules: rules,
+				messages: messages,
+				errorClass: 'c-form__error',
+				errorElement: 'div',
+			});
+		});
+		
+		  // URLからsite_id取得
+		  const params = new URLSearchParams(window.location.search);
+		  const siteId = params.get('site_id');
+
+		  // どちらを表示するか切り替え
+		  if (siteId === 'maimaidxex') {
+		    document.getElementById('agree-default').style.display = 'none';
+		  } else {
+		    document.getElementById('agree-maimaidxex').style.display = 'none';
+		  }
+	</script>
+
+
+<style>
+.c-form__labelWrap {
+  text-align: center;           /* 枠そのものを中央に */
+}
+
+.c-form__label--bg.agree {
+  display: inline-flex;         /* チェックボックス＋テキストを横並び */
+  align-items: flex-start;
+  gap: 8px;                     /* 2つの間隔 */
+  padding: 12px 16px;           /* 灰色枠の内側余白を確保 */
+  box-sizing: border-box;
+  width: 100%;                  /* 親の中で横幅を持たせる */
+  max-width: 560px;             /* ここで箱の最大幅（調整ポイント） */
+}
+
+.agree__text {
+  display: block;
+  line-height: 1.5;
+  text-align: left;
+  max-width: 100%;              /* 枠内に収める */
+  word-break: keep-all;         /* 英単語の途中で折らない */
+  transform: translateY(-8px);
+}
+
+.agree__text > span {
+  display: block;               /* 2行を明示 */
+}
+
+.c-form__checkbox {
+  width: 20px; height: 20px;    /* 大きめにするなら */
+  flex: 0 0 20px;               /* つぶれ防止 */
+  margin-top: 2px;              /* 行頭と高さの微調整 */
+}
+
+</style>
+
+
+
+</body></html>
