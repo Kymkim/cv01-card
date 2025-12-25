@@ -40,7 +40,7 @@ def scrape_player_data():
             page = context.new_page()
             page.goto("https://maimaidx-eng.com")
 
-            if page.locator("input[type=password]").count() > 0:
+        if page.locator("input[type=password]").count() > 0:
             print("Login with your account - Press Enter when done")
             return playerData
         else:
