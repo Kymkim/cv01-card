@@ -50,7 +50,7 @@ def scrape_player_data():
         playerData["rating"] = page.locator("div.rating_block").text_content()
 
         print(playerData)
-        contect.close()
+        context.close()
         browser.close()
         return playerData
 
