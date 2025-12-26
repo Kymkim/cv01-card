@@ -62,6 +62,6 @@ def auth():
         page = context.new_page()
         page.goto("https://maimaidx-eng.com")
 
-        print("Login with your account - Press Enter when done")
+        input("Login with your account - Press Enter when done")
         
     
