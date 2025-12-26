@@ -110,6 +110,10 @@ void ILI9341V_writePixel(uint16_t x, uint16_t y, uint8_t r, uint8_t g, uint8_t b
 
 void ILI9341V_write(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2, uint16_t* color_buff){
 
+    int total_pixels = (x2 - x1 + 1) * (y2 - y1 + 1);
+    int offset = 0;
+    uint16_t chunk[CHUNK_SIZE];
+
     ILI9341V_sendCommand(0x2A);
     ILI9341V_sendData(x1>>8 & 0xFF);
     ILI9341V_sendData(x1 & 0xFF);
@@ -123,11 +127,22 @@ void ILI9341V_write(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2, uint16_t
     ILI9341V_sendData(y2 & 0xFF);
     
     ILI9341V_sendCommand(0x2C);
-    for(int i = 0; i < (x2 - x1 + 1) * (y2 - y1 + 1); i++){
-        uint16_t color = color_buff[i];
-        ILI9341V_sendData((uint8_t)(color >> 8));  
-        ILI9341V_sendData((uint8_t)(color & 0xFF)); 
-    } 
+    while(total_pixels > 0){
+        int send = total_pixels > CHUNK_SIZE ? CHUNK_SIZE : total_pixels;
+        spi_transaction_t t;
+
+        memset(&t, 0, sizeof(t));
+        t.length = send * 16;
+        for(int i = 0; i < send; i++){
+            chunk[i] = (color_buff[offset + i] >> 8) | (color_buff[offset + i] << 8); //Endianness swap
+        }
+        t.tx_buffer = (const void *)chunk;
+
+        gpio_set_level(LCD_PIN_DC, 1);         // DATA mode
+        spi_device_transmit(spi, &t);
+        offset += send;
+        total_pixels -= send;
+    }
 
 }
 
