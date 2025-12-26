@@ -60,21 +60,16 @@ def auth():
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=False)
         
-        # Load existing auth state if available
-        if os.path.exists(STORAGE_FILE):
-            context = browser.new_context(storage_state=STORAGE_FILE)
-            print("Loaded existing login state!")
-        else:
-            context = browser.new_context()
+        context = browser.new_context(storage_state=AUTH_FILE)
         
         page = context.new_page()
         page.goto("https://maimaidx-eng.com")
 
         # If no saved state, wait for manual login
-        if not os.path.exists(STORAGE_FILE):
+        if not os.path.exists(AUTH_FILE):
             input("Login with your account - Press Enter when done...")
             # Save storage state for next time
-            context.storage_state(path=STORAGE_FILE)
+            context.storage_state(path=AUTH_FILE)
             print("Login state saved!")
 
         # You can continue automating here...
