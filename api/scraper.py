@@ -36,6 +36,7 @@ def scrape_player_data():
         if page.locator("input[type=password]").count() > 0:
             print("❌ Login required!")
             page.goto("https://maimaidx-eng.com")
+            context.storage_state(path=AUTH_FILE)
             input("Login with your account - Press Enter when done")
         else:
             print("Already logged in via saved auth!")
@@ -48,10 +49,8 @@ def scrape_player_data():
         playerData["username"] = page.locator("div.name_block").text_content()
         playerData["rating"] = page.locator("div.rating_block").text_content()
 
-        print(page.content())
-
         print(playerData)
-
+        contect.close()
         browser.close()
         return playerData
 
