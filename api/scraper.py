@@ -55,13 +55,32 @@ def scrape_player_data():
         browser.close()
         return playerData
 
+
 def auth():
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=False)
-        context = browser.new_context()
+        
+        # Load existing auth state if available
+        if os.path.exists(STORAGE_FILE):
+            context = browser.new_context(storage_state=STORAGE_FILE)
+            print("Loaded existing login state!")
+        else:
+            context = browser.new_context()
+        
         page = context.new_page()
         page.goto("https://maimaidx-eng.com")
 
-        input("Login with your account - Press Enter when done")
-        
+        # If no saved state, wait for manual login
+        if not os.path.exists(STORAGE_FILE):
+            input("Login with your account - Press Enter when done...")
+            # Save storage state for next time
+            context.storage_state(path=STORAGE_FILE)
+            print("Login state saved!")
+
+        # You can continue automating here...
+        page.wait_for_timeout(5000)  # just for demo, wait 5 seconds
+
+        # Close everything
+        context.close()
+        browser.close()
     
