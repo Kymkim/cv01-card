@@ -35,14 +35,8 @@ def scrape_player_data():
         # Check if login page
         if page.locator("input[type=password]").count() > 0:
             print("❌ Login required!")
-            browser = p.chromium.launch(headless=False)
-            context = browser.new_context()
-            page = context.new_page()
-            page.goto("https://maimaidx-eng.com")
-
-            if page.locator("input[type=password]").count() > 0:
-                print("Login with your account - Press Enter when done")
-                return playerData
+            print("Run python setup.py first to authenthicate.")
+            return playerData
         else:
             print("Already logged in via saved auth!")
             page.goto("https://maimaidx-eng.com/maimai-mobile/playerData/")
@@ -61,3 +55,13 @@ def scrape_player_data():
         browser.close()
         return playerData
 
+def auth():
+    with sync_playwright() as p:
+        browser = p.chromium.launch(headless=False)
+        context = browser.new_context()
+        page = context.new_page()
+        page.goto("https://maimaidx-eng.com")
+
+        print("Login with your account - Press Enter when done")
+        
+    
